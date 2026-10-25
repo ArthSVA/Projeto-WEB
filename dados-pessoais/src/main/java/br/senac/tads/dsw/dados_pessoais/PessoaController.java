@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatusCode;
@@ -24,20 +25,25 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("/pessoas")
 public class PessoaController {
 
-    private final PessoaService pessoaService;
+    private final PessoaService PessoaService;
 
-    public PessoaController(PessoaService pessoaService) {
-        this.pessoaService = pessoaService;
+    public PessoaController(PessoaService PessoaService) {
+        this.PessoaService = PessoaService;
     }
 
     @GetMapping
     public List<PessoaDto> obterPessoas() {
-        return pessoaService.obterPessoas();
+        return PessoaService.obterPessoas();
     }
+
+    @GetMapping("/busca")
+    public ResponseEntity<List<PessoaDto>> buscarPessoas(@RequestParam("q") String termo) {
+        return ResponseEntity.ok(PessoaService.buscarPessoas(termo));
+    }   
 
     @GetMapping("/{username}")
     public PessoaDto obterPessoa(@PathVariable("username") String username) {
-        Optional<PessoaDto> optPessoa = pessoaService.obterPessoa(username);
+        Optional<PessoaDto> optPessoa = PessoaService.obterPessoa(username);
         if (optPessoa.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
@@ -46,7 +52,7 @@ public class PessoaController {
 
     @PostMapping("/sem-validacao")
     public ResponseEntity<?> incluirNovo(@RequestBody PessoaDto pessoa) {
-        pessoaService.incluirNovaPessoa(pessoa);
+        PessoaService.incluirNovaPessoa(pessoa);
         URI location = ServletUriComponentsBuilder
             .fromCurrentContextPath()
             .path("/pessoas/{username}")
@@ -59,7 +65,7 @@ public class PessoaController {
     public ResponseEntity<?> incluirNovoComValidacao(@RequestBody @Valid PessoaDto pessoa) {
         // NOTAR O @Valid na linha acima
 
-        pessoaService.incluirNovaPessoa(pessoa);
+        PessoaService.incluirNovaPessoa(pessoa);
         URI location = ServletUriComponentsBuilder
             .fromCurrentContextPath()
             .path("/pessoas/{username}")
@@ -71,13 +77,13 @@ public class PessoaController {
     @PutMapping("/{username}")
     public ResponseEntity<?> atualizar(@PathVariable("username") String username,
             @RequestBody @Valid PessoaAlteracaoDto pessoa) {
-        PessoaDto pessoaAlterada = pessoaService.alterarPessoa(username, pessoa);
+        PessoaDto pessoaAlterada = PessoaService.alterarPessoa(username, pessoa);
         return ResponseEntity.ok().body(pessoaAlterada);
     }
 
     @DeleteMapping("/{username}")
     public ResponseEntity<?> remover(@PathVariable("username") String username) {
-        pessoaService.removerPessoa(username);
+        PessoaService.removerPessoa(username);
         return ResponseEntity.noContent().build(); // HTTP 204
     }
 
