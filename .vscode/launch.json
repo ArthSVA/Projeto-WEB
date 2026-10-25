@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-DadosPessoaisApplication<dados-pessoais>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "br.senac.tads.dsw.dados_pessoais.DadosPessoaisApplication",
+            "projectName": "dados-pessoais",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
