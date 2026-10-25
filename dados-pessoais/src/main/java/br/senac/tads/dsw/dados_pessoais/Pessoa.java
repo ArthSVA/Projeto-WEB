@@ -1,16 +1,39 @@
 package br.senac.tads.dsw.dados_pessoais;
 
+import br.senac.tads.dsw.dados_pessoais.validacao.SenhasIguais;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
+@SenhasIguais // será criada na seção 2.5 - adicione depois
 public class Pessoa {
 
     private Integer id;
+
+    @NotBlank(message = "O username é obrigatório")
+    @Size(max = 64)
     private String username;
+
+    @NotBlank(message = "O nome completo é obrigatório")
+    @Size(max = 100)
     private String nome;
+
+    @NotBlank
+    @Size(max = 100)
+    @Email
     private String email;
+
+    @Size(max = 20)
     private String telefone;
+
+    @NotNull
+    @PastOrPresent
     private LocalDate dataNascimento;
+
     private String senha;
     private String senhaRepeticao;
     private List<String> conhecimentos;
