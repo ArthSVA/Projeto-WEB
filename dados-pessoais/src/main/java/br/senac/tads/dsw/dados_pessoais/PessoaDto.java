@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @SenhasIguais // será criada na seção 2.5 - adicione depois
-public class Pessoa {
+public class PessoaDto {
 
     private Integer id;
 
@@ -119,10 +119,10 @@ public class Pessoa {
     // ATENÇÃO 2: NOTAR QUE SÃO 2 CONSTRUTORES (O "padrão" sem argumentos
     // e o que recebe todas as propriedades como argumentos)
     // ========================================================
-    public Pessoa() {
+    public PessoaDto() {
     }
 
-    public Pessoa(Integer id, String username, String nome, String email,
+    public PessoaDto(Integer id, String username, String nome, String email,
             String telefone, LocalDate dataNascimento) {
         this.id = id;
         this.username = username;
